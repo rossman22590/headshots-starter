@@ -6,7 +6,7 @@ Introducing Headshot AI, an open-source project from [Leap AI](https://tryleap.a
 
 [![Headshot AI Demo](/public/demo.png)](https://headshots-starter.vercel.app/)
 
-## How It Works
+## How It Works 
 
 The app is powered by:
 
