@@ -56,7 +56,7 @@ cd headshots-starter
 
    - Rename `.env.local.example` to `.env.local` and update the values for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` from [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-   **For this starter repo we disabled Row level permissions, you can enable them as needed for your own security, in the supasbase table settings**
+   **Make sure to configure your row level permissions on your tables, in the supabase dashboard**
 
    ![Visualized Schemas](https://headshots-starter.vercel.app/visualized_schemas.png)
 
@@ -86,6 +86,16 @@ cd headshots-starter
    - id (int8)
    - uri (text)
    - modelId (int8) (foreign_key)\*
+
+6.  Magic Link Auth
+
+   In your supabase [dashboard](https://supabase.com/dashboard/project/{projectId}/auth/templates), make sure to update the email template for magic link correctly. You can use the following template:
+
+   ```
+   <h2>Magic Link</h2>
+   <p>Follow this link to login:</p>
+   <p><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">Log In</a></p>
+   ```
 
 5. Create a [Leap AI](https://tryleap.ai/) account
 

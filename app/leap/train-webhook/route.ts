@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const leapApiKey = process.env.LEAP_API_KEY;
 const leapImageWebhookUrl = process.env.LEAP_IMAGE_WEBHOOK_URL;
 const leapWebhookSecret = process.env.LEAP_WEBHOOK_SECRET;
@@ -29,7 +29,7 @@ if (!supabaseUrl) {
   throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!");
 }
 
-if (!supabaseServiceRoleKey) {
+if (!supabaseAnonKey) {
   throw new Error("MISSING NEXT_PUBLIC_SUPABASE_ANON_KEY!");
 }
 
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
   const supabase = createClient<Database>(
     supabaseUrl as string,
-    supabaseServiceRoleKey as string,
+    supabaseAnonKey as string,
     {
       auth: {
         autoRefreshToken: false,
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         .select();
 
       if (modelUpdatedError) {
-        console.log(modelUpdatedError);
+        console.error(modelUpdatedError);
         return NextResponse.json(
           {
             message: "Something went wrong!",
@@ -137,8 +137,8 @@ export async function POST(request: Request) {
       }
 
       if (!modelUpdated) {
-        console.log("No model updated!");
-        console.log({ modelUpdated });
+        console.error("No model updated!");
+        console.error({ modelUpdated });
       }
 
       const leap = new Leap({
@@ -161,7 +161,6 @@ export async function POST(request: Request) {
           promptStrength: 7.5,
           webhookUrl: `${leapImageWebhookUrl}?user_id=${user.id}&model_id=${result.id}&webhook_secret=${leapWebhookSecret}&model_db_id=${modelUpdated[0]?.id}`,
         });
-        console.log({ status, statusText });
       }
     } else {
       // Send Email
@@ -186,7 +185,7 @@ export async function POST(request: Request) {
       { status: 200, statusText: "Success" }
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return NextResponse.json(
       {
         message: "Something went wrong!",
