@@ -1,7 +1,8 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
-import Footer from "@/components/Footer";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Headshots AI",
@@ -10,16 +11,14 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: any) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
         <section>
-          <Navbar />
+          <Suspense fallback={<div className="flex w-full px-4 lg:px-40 py-4 items-center border-b text-center gap-8 justify-between h-[69px]" />}>
+            <Navbar />
+          </Suspense>
         </section>
         <main className="flex flex-1 flex-col items-center py-16">
           {children}

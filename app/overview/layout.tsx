@@ -12,14 +12,12 @@ export default async function RootLayout({
   const supabase = createServerComponentClient({ cookies });
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const user = session?.user;
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return <Login />;
   }
 
-  return <>{children}</>;
+  return <div className="flex w-full flex-col px-4 lg:px-40">{children}</div>;
 }
